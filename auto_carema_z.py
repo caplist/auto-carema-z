@@ -65,6 +65,7 @@ if __name__ == "__main__":
     max_num = 10
     # 初始位置
     step = 0
+    # 设置步长
     for i in range(max_num):
         # 位移台移动
         z.move(step, unit = "u")
@@ -80,6 +81,7 @@ if __name__ == "__main__":
             picture_path = data_path + '\\' + "Z" + str(i) + ".jpg"
         print(picture_path)
         c.SavePicture(picture_path)
+        # 每次加步长
         step = step + 9
         z.PrintPosition()
 
