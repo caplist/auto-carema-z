@@ -26,6 +26,7 @@
 
 from zz import Piezoconcept
 from carema import Carema
+from process_data import DrawPicture
 import cv2 as cv
 import functools
 from matplotlib import pyplot as p, cm, colors
@@ -56,7 +57,6 @@ if __name__ == "__main__":
     # 没有连接设备的时候，直接异常退出了
     c = Carema()
     z = Piezoconcept(port = "COM3")
-   # print(z.INFO())
   
     # 使用循环控制采集数据的数量
     # 采集数据的间距
@@ -80,15 +80,15 @@ if __name__ == "__main__":
             picture_path = data_path + '\\' + "Z" + "0" + str(i) + ".jpg"
         else:
             picture_path = data_path + '\\' + "Z" + str(i) + ".jpg"
-        print(picture_path)
+        # print(picture_path)
         c.SavePicture(picture_path)
         # 每次加步长
-        step = step + 9
-        z.PrintPosition()
+        step = step + 5
+        # z.PrintPosition()
 
 
     # 位移台进行回退
-    z.move(-max_num * step, unit = "u")
+    # z.move(-max_num * step, unit = "u")
     # 关闭相机和位移台
     c.Close()
     z.close()
@@ -97,6 +97,7 @@ if __name__ == "__main__":
     # 数据处理部分
     name_lists = os.listdir(data_path)
     print('name_lists:', name_lists)
+    # print('name_lists:', name_lists)
     time_start = time.time()
 
     # 创建excel表格类型文件.
@@ -110,10 +111,17 @@ if __name__ == "__main__":
         sheet.write(0, i, col[i])            # 第一个参数是行，第二个参数是列，第三个参数是需要写的内容。
     # 创建字典，用于保存name和光强
     dict = {}
+    # 去除列表中的非jpg文件
+    for name in name_lists:
+        if not name.endswith('.jpg'):
+            name_lists.remove(name)
+    # 定义全局保存图片路径
+    savepath = ''
     for name in name_lists:
         img_path = os.path.join(data_path, name)    # 返回指定文件夹下的一张图片的路径
+        print('img_path:', img_path)
         img = cv.imread(img_path, 1)
-        print('name:', name)
+        # print('name:', name)
         # 转换为灰度图像
         gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
         # 2.灰度化、中值滤波、边缘检测
@@ -158,13 +166,8 @@ if __name__ == "__main__":
         savepath = data_path + '\\' + "result.xls"
         book.save(savepath)
         # 本次实验完成
-    # 读取result.xls文件,对里面的数据进行绘图
-    df = pd.read_excel(savepath)
-    plt.figure(figsize=(10, 6)) # 设置画布的尺寸
-    plt.plot(df['name'], df['光强I']) # 绘制折线图
-    plt.title('轴向传感曲线图') # 设置图表的标题
-    plt.xlabel('轴向位置') # 设置x轴的标签
-    plt.ylabel('光强I') # 设置y轴的标签
+    print(savepath)
+    DrawPicture(savepath)
     print("本次实验完成")
 
 

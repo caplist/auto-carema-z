@@ -78,14 +78,14 @@ class Piezoconcept(si.SerialInstrument):
 
     
         
-if __name__ == "__main__":
-    '''Basic test, should open the Z stage and print its info before closing. 
-    Obvisouly the comport has to be correct!'''
-    Z = Piezoconcept(port = "COM3")
-    print(Z.PrintPosition())
-    # print(Z.GetZ())
-    Z.move(99, unit = "u")
-    print(Z.PrintPosition())
-    # print(Z.GetZ())
-    Z.close()
+# if __name__ == "__main__":
+#     '''Basic test, should open the Z stage and print its info before closing. 
+#     Obvisouly the comport has to be correct!'''
+#     Z = Piezoconcept(port = "COM3")
+#     print(Z.PrintPosition())
+#     # print(Z.GetZ())
+#     Z.move(99, unit = "u")
+#     print(Z.PrintPosition())
+#     # print(Z.GetZ())
+#     Z.close()
         
