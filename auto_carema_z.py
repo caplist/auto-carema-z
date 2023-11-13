@@ -37,6 +37,7 @@ from matplotlib import pyplot as plt
 import os
 from scipy import optimize
 import xlwt
+import pandas as pd
 
 
 if __name__ == "__main__":
@@ -157,6 +158,13 @@ if __name__ == "__main__":
         savepath = data_path + '\\' + "result.xls"
         book.save(savepath)
         # 本次实验完成
+    # 读取result.xls文件,对里面的数据进行绘图
+    df = pd.read_excel(savepath)
+    plt.figure(figsize=(10, 6)) # 设置画布的尺寸
+    plt.plot(df['name'], df['光强I']) # 绘制折线图
+    plt.title('轴向传感曲线图') # 设置图表的标题
+    plt.xlabel('轴向位置') # 设置x轴的标签
+    plt.ylabel('光强I') # 设置y轴的标签
     print("本次实验完成")
 
 

@@ -15,7 +15,7 @@ class Carema:
         #  开始采集
         self.cam.stream_on()
 
-    # 将保存的图像放到指定目录(修改)
+    # 相机拍照
     def CapturePicture(self):
         # 从第 0 个流通道获取一幅图像
         raw_image = self.cam.data_stream[0].get_image()
@@ -28,6 +28,7 @@ class Carema:
         if self.numpy_image is None:
             pass
         # 显示并保存获得的 RGB 图片
+    # 将保存的图像放到指定目录(修改)
     def SavePicture(self, path):
         image = Image.fromarray(self.numpy_image, 'RGB')
         #image.show()
