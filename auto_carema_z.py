@@ -39,7 +39,7 @@ import os
 from scipy import optimize
 import xlwt
 import pandas as pd
-
+import circle
 
 if __name__ == "__main__":
 
@@ -124,38 +124,26 @@ if __name__ == "__main__":
         # print('name:', name)
         # 转换为灰度图像
         gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-        # 2.灰度化、中值滤波、边缘检测
-        # img = cv.blur(img, (5, 5))  # 均值模糊，滤波作用
-        # double__otsu_threshold, src = cv.threshold(img, 100, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)  # 阈值化处理
-        # edges = cv.Canny(src, 0, 255)
-        # 找到最亮像素点的坐标
-        min_val, max_val, min_loc, max_loc = cv.minMaxLoc(gray)
-        brightest_pixel = max_loc
-        # 5.输入中心点坐标，并显示中心点的像素值
-        xx = brightest_pixel[0] # x,y转换中心坐标对了
-        yy = brightest_pixel[1]
-        # xx = yc_2
-        # yy = xc_2
-        # px = edges[yy, xx]
-        # print('px:', px)
-        # edges[yy, xx] = 255  # 改变中心点的灰度值，看中心点定位是否准确
-        # 显示处理后图像
-        # plt.imshow(edges)
-        # plt.show()
-        # 6.3*3的中心区域的像素值
-        # roi = img[yy - 1:yy + 2, xx - 1:xx + 3]  # 3*3区域。    取原图的像素值
-        cy, cx, r = yy, xx, 15
-        # Create a grid of indices
-        y, x = np.ogrid[:img.shape[0], :img.shape[1]]
-        # Create a mask where the condition is True
-        mask = ((y - cy)**2 + (x - cx)**2) <= r**2
-        # Apply the mask to the image
-        roi = img[mask]
-        px = np.mean(roi)
-        print('I:', px)
-        # 输出数据为表格
-        # 将数据写入sheet中
-        # 用哈希表存数据
+        # 取区域平均值算法
+        px = circle.CircleMean(name,3)
+        # 算法：找到最亮的像素点 
+        # min_val, max_val, min_loc, max_loc = cv.minMaxLoc(gray)
+        # brightest_pixel = max_loc
+        # # 5.输入中心点坐标，并显示中心点的像素值
+        # xx = brightest_pixel[0] # x,y转换中心坐标对了
+        # yy = brightest_pixel[1]
+        # cy, cx, r = yy, xx, 15
+        # # Create a grid of indices
+        # y, x = np.ogrid[:img.shape[0], :img.shape[1]]
+        # # Create a mask where the condition is True
+        # mask = ((y - cy)**2 + (x - cx)**2) <= r**2
+        # # Apply the mask to the image
+        # roi = img[mask]
+        # px = np.mean(roi)
+        # print('I:', px)
+        # # 输出数据为表格
+        # # 将数据写入sheet中
+        # # 用哈希表存数据
         dict[name] = px                
         i = 1
         # print(dict)
