@@ -10,7 +10,7 @@ def huidu(name, radius):
     # plt.imshow(gray, cmap='gray')
     # plt.show()
     # 检测圆形光斑并找到圆心和半径
-    detected_circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1, 30, param1=200, param2=30, minRadius=1, maxRadius=50)
+    detected_circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1, 30, param1=200, param2=30, minRadius=10, maxRadius=50)
     if detected_circles is not None:
         # 将圆形参数转换为整数
         detected_circles = np.uint16(np.around(detected_circles))
@@ -27,8 +27,9 @@ def huidu(name, radius):
 
         # 创建一个空白的掩膜，大小和图片相同
         mask = np.zeros_like(gray)
-        # 在掩膜上画出圆形区域，颜色为白色（255）
-        cv2.circle(mask, (a, b), radius, (255, 255, 255), -1)
+        # 在掩膜上画出圆形区域，颜色为白色（255） 强制转换
+        # cv2.circle(mask, (int(x0), int(y0)), radius, (255, 255, 255), -1)
+        cv2.circle(mask, (a,b), radius, (255, 255, 255), -1)
         # 使用掩膜提取圆形区域的灰度值
         gray_circle = cv2.bitwise_and(gray, gray, mask=mask)
         # 计算圆形区域的平均灰度值

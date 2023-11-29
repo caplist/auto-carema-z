@@ -63,7 +63,7 @@ if __name__ == "__main__":
     # 采集数据的单位
 
     # 采集数据的数量
-    max_num = 10
+    max_num = 100
     # 初始位置
     step = 0
     # 设置步长
@@ -83,8 +83,8 @@ if __name__ == "__main__":
         # print(picture_path)
         c.SavePicture(picture_path)
         # 每次加步长
-        step = step + 5
-        # z.PrintPosition()
+        step = step + 1
+        z.PrintPosition()
 
 
     # 位移台进行回退
@@ -119,13 +119,15 @@ if __name__ == "__main__":
     savepath = ''
     for name in name_lists:
         img_path = os.path.join(data_path, name)    # 返回指定文件夹下的一张图片的路径
-        print('img_path:', img_path)
+        # print('img_path:', img_path)
         img = cv.imread(img_path, 1)
         # print('name:', name)
         # 转换为灰度图像
         gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
         # 取区域平均值算法
-        px = circle.CircleMean(name,3)
+        # print('name:', name)
+        # print('img_path:', img_path)
+        px = circle.huidu(img_path,3)
         # 算法：找到最亮的像素点 
         # min_val, max_val, min_loc, max_loc = cv.minMaxLoc(gray)
         # brightest_pixel = max_loc
@@ -154,7 +156,6 @@ if __name__ == "__main__":
         savepath = data_path + '\\' + "result.xls"
         book.save(savepath)
         # 本次实验完成
-    print(savepath)
     DrawPicture(savepath)
     print("本次实验完成")
 
