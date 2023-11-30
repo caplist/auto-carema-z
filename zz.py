@@ -74,6 +74,9 @@ class Piezoconcept(si.SerialInstrument):
     
     def PrintPosition(self):
         print(self.position)
+    # 得到z轴的位置 用于
+    def GetZPosition(self):
+        return self.position
         
 
     

@@ -66,7 +66,8 @@ if __name__ == "__main__":
     max_num = 100
     # 初始位置
     step = 0
-    # 设置步长
+    # 保存图片名字和位置的字典
+    name_position = {}
     for i in range(max_num):
         # 位移台移动
         z.move(step, unit = "u")
@@ -81,17 +82,21 @@ if __name__ == "__main__":
         else:
             picture_path = data_path + '\\' + "Z" + str(i) + ".jpg"
         # print(picture_path)
+        # 去除图片名字前面的所有路径
+        name_path = os.path.basename(picture_path)
+        # 保存键值对关系
+        name_position[name_path] = step
         c.SavePicture(picture_path)
         # 每次加步长
         step = step + 1
-        z.PrintPosition()
+        # z.PrintPosition()
 
     # 位移台进行回退
     # 关闭相机和位移台
-    c.Close()
-    z.close()
+    # c.Close()
+    # z.close()
 
-    print("采集数据完成，开始数据处理")
+    print("粗定焦完成，开始细定焦")
     # 数据处理部分
     name_lists = os.listdir(data_path)
     # print('name_lists:', name_lists)
@@ -106,14 +111,15 @@ if __name__ == "__main__":
     for i in range(0, 2):                    # 这里的2是表格的列数
         sheet.write(0, i, col[i])            # 第一个参数是行，第二个参数是列，第三个参数是需要写的内容。
     # 创建字典，用于保存name和光强
-    dict = {}
+    # dict = {}
     # 去除列表中的非jpg文件
     for name in name_lists:
         if not name.endswith('.jpg'):
             name_lists.remove(name)
     # 定义全局保存图片路径
     savepath = ''
-    # 保存最大值
+    # 保存最大值对应的图片名
+    max_px_name = ''
     max_px = 0
     for name in name_lists:
         img_path = os.path.join(data_path, name)    # 返回指定文件夹下的一张图片的路径
@@ -123,17 +129,11 @@ if __name__ == "__main__":
         # 更新最大值
         if px > max_px:
             max_px = px
-        dict[name] = px                
-        i = 1
-        # print(dict)
-        # for key in dict:
-        #     sheet.write(i, 0, key)
-        #     sheet.write(i, 1, dict[key])
-        #     i = i + 1
-        # savepath = data_path + '\\' + "result.xls"
-        # book.save(savepath)
-        # 本次实验完成
-    # DrawPicture(savepath)
+            max_px_name = name
+
+    # 得到焦点的位置
+    focul_position = name_position[max_px_name]
+    # 开始细定焦实验
     print("本次实验完成")
 
 

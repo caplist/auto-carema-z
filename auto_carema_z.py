@@ -146,6 +146,7 @@ if __name__ == "__main__":
         # # 输出数据为表格
         # # 将数据写入sheet中
         # # 用哈希表存数据
+    # 忘了怎么对齐的了
         dict[name] = px                
         i = 1
         # print(dict)

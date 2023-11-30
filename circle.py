@@ -10,7 +10,7 @@ def huidu(name, radius):
     # plt.imshow(gray, cmap='gray')
     # plt.show()
     # 检测圆形光斑并找到圆心和半径
-    detected_circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1, 30, param1=200, param2=30, minRadius=10, maxRadius=50)
+    detected_circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1, 30, param1=200, param2=30, minRadius=1, maxRadius=50)
     if detected_circles is not None:
         # 将圆形参数转换为整数
         detected_circles = np.uint16(np.around(detected_circles))
